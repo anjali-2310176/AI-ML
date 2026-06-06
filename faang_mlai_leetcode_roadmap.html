@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAANG ML/AI LeetCode Roadmap</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Space Grotesk',sans-serif;background:#08090d;color:#e2e0f0;min-height:100vh;padding:16px 14px 60px}
+:root{
+  --ink:#e2e0f0;--muted:#6b6980;--card:#0f1018;--border:#1e1f2e;
+  --p1:#c084fc;--p2:#a855f7;--p3:#7c3aed;
+  --g1:#34d399;--g2:#10b981;
+  --b1:#60a5fa;--b2:#3b82f6;
+  --r1:#f87171;--r2:#ef4444;
+  --y1:#fbbf24;--y2:#f59e0b;
+  --mono:'JetBrains Mono',monospace;
+}
+
+/* HEADER */
+.hdr{margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.hdr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.title-block{}
+.eyebrow{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.18em;color:var(--p1);text-transform:uppercase;margin-bottom:6px}
+.htitle{font-size:20px;font-weight:700;line-height:1.2;background:linear-gradient(135deg,#c084fc,#818cf8,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hsub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5}
+.recruiter-note{background:linear-gradient(135deg,rgba(192,132,252,.06),rgba(96,165,250,.06));border:1px solid rgba(192,132,252,.2);border-radius:10px;padding:10px 12px;margin-top:14px;font-size:11px;color:var(--muted);line-height:1.7}
+.recruiter-note strong{color:var(--p1);font-size:11px}
+
+/* GLOBAL PROGRESS */
+.gp{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:16px}
+.gp-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.gp-label{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.gp-pct{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--g1)}
+.gp-track{height:5px;background:#1e1f2e;border-radius:3px;overflow:hidden;margin-bottom:12px}
+.gp-fill{height:100%;background:linear-gradient(90deg,var(--p2),var(--b2));border-radius:3px;transition:width .5s}
+.gp-counts{display:flex;gap:10px;flex-wrap:wrap}
+.gp-chip{font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:4px;border:1px solid var(--border);color:var(--muted)}
+.gp-chip span{font-weight:600;color:var(--ink)}
+.reset-btn{font-family:var(--mono);font-size:9px;padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;letter-spacing:.06em;margin-top:8px}
+.reset-btn:hover{border-color:var(--r1);color:var(--r1)}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.li{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted)}
+.dot{width:6px;height:6px;border-radius:50%}
+
+/* TAB NAV */
+.tnav{display:flex;gap:4px;overflow-x:auto;margin-bottom:14px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+.tnav::-webkit-scrollbar{height:2px}
+.tnav::-webkit-scrollbar-thumb{background:var(--border)}
+.tbtn{font-family:var(--mono);font-size:9px;font-weight:600;padding:6px 11px;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);white-space:nowrap;letter-spacing:.04em;-webkit-tap-highlight-color:transparent;position:relative;transition:all .15s}
+.tbtn.active{background:rgba(192,132,252,.1);border-color:var(--p1);color:var(--p1)}
+.tbtn .tp{position:absolute;bottom:0;left:0;height:2px;background:var(--p1);border-radius:0 0 6px 6px;transition:width .4s}
+
+/* PANEL */
+.panel{display:none}.panel.vis{display:block}
+
+/* TOPIC SECTION */
+.topic-section{margin-bottom:10px}
+.topic-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.topic-card.all-done{border-color:rgba(52,211,153,.3)}
+.topic-hdr{display:flex;align-items:center;gap:8px;padding:11px 13px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.topic-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.topic-info{flex:1;min-width:0}
+.topic-name{font-size:12px;font-weight:600;line-height:1.2}
+.topic-sub{font-size:9px;color:var(--muted);margin-top:2px;font-family:var(--mono)}
+.topic-mini{height:2px;background:#1e1f2e;border-radius:1px;margin-top:5px;overflow:hidden}
+.topic-mini-fill{height:100%;border-radius:1px;transition:width .3s}
+.topic-cnt{font-family:var(--mono);font-size:9px;color:var(--muted);flex-shrink:0}
+.topic-chev{font-size:9px;color:var(--muted);transition:transform .2s;flex-shrink:0}
+.topic-card.open .topic-chev{transform:rotate(180deg)}
+.topic-body{display:none;padding:10px 13px 13px;border-top:1px solid var(--border)}
+.topic-card.open .topic-body{display:block}
+
+/* RECRUITER TIP inside topic */
+.rtip{background:rgba(192,132,252,.05);border:1px solid rgba(192,132,252,.15);border-radius:7px;padding:8px 10px;margin-bottom:10px;font-size:10px;color:var(--muted);line-height:1.6}
+.rtip-label{font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:.12em;color:var(--p1);margin-bottom:3px}
+
+/* PRIORITY SECTION */
+.psec{margin-bottom:8px}
+.psec-label{font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px;padding-left:2px}
+.lc-high{color:var(--r1)}.lc-med{color:var(--y1)}.lc-low{color:var(--muted)}
+
+/* PROBLEM ROW */
+.plist{display:flex;flex-direction:column;gap:3px}
+.prow{display:flex;align-items:flex-start;gap:7px;padding:6px 9px;border-radius:7px;border:1px solid var(--border);background:#0b0c14;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s;user-select:none}
+.prow:hover{border-color:#2e2f40}
+.prow.done{opacity:.38;border-color:rgba(52,211,153,.15)}
+.prow.done .pname{text-decoration:line-through;color:var(--muted)}
+.cb{width:15px;height:15px;min-width:15px;border-radius:4px;border:1.5px solid #2e2f40;background:transparent;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-top:1px}
+.prow.done .cb{background:var(--g1);border-color:var(--g1)}
+.cbtick{display:none;color:#000;font-size:9px;font-weight:900}
+.prow.done .cbtick{display:block}
+.prow-meta{flex:1;min-width:0}
+.pname{font-size:11px;color:var(--ink);line-height:1.4}
+.pwhy{font-size:9.5px;color:var(--muted);margin-top:2px;line-height:1.4;font-style:italic}
+.ptags{display:flex;gap:3px;flex-wrap:wrap;margin-top:3px}
+.ptag{font-family:var(--mono);font-size:8px;padding:1px 5px;border-radius:3px}
+.tag-p{background:rgba(192,132,252,.1);color:#c084fc;border:1px solid rgba(192,132,252,.2)}
+.tag-g{background:rgba(52,211,153,.08);color:#34d399;border:1px solid rgba(52,211,153,.2)}
+.tag-b{background:rgba(96,165,250,.08);color:#60a5fa;border:1px solid rgba(96,165,250,.2)}
+.tag-y{background:rgba(251,191,36,.08);color:#fbbf24;border:1px solid rgba(251,191,36,.2)}
+.tag-r{background:rgba(248,113,113,.08);color:#f87171;border:1px solid rgba(248,113,113,.2)}
+.pdiff{font-family:var(--mono);font-size:8px;padding:2px 5px;border-radius:3px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+.de{background:rgba(52,211,153,.1);color:#34d399}
+.dm{background:rgba(251,191,36,.1);color:#fbbf24}
+.dh{background:rgba(248,113,113,.1);color:#f87171}
+
+/* ML WHY BOX */
+.mlwhy{background:rgba(96,165,250,.05);border:1px solid rgba(96,165,250,.15);border-radius:7px;padding:8px 10px;margin-top:8px}
+.mlwhy-label{font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:.12em;color:var(--b1);margin-bottom:4px}
+.mlwhy-text{font-size:10px;color:var(--muted);line-height:1.6}
+
+/* PHASE HEADER */
+.phase-hdr{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.phase-num{font-family:var(--mono);font-size:30px;font-weight:600;line-height:1;opacity:.12;flex-shrink:0;color:var(--p1)}
+.phase-info{flex:1}
+.phase-title{font-size:14px;font-weight:700;margin-bottom:3px}
+.phase-desc{font-size:11px;color:var(--muted);line-height:1.6}
+.phase-badge{font-family:var(--mono);font-size:8px;font-weight:600;padding:4px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0;align-self:flex-start;letter-spacing:.06em}
+.b-purple{background:rgba(192,132,252,.12);color:var(--p1);border:1px solid rgba(192,132,252,.3)}
+.b-green{background:rgba(52,211,153,.1);color:#34d399;border:1px solid rgba(52,211,153,.25)}
+.b-blue{background:rgba(96,165,250,.1);color:var(--b1);border:1px solid rgba(96,165,250,.25)}
+.b-red{background:rgba(248,113,113,.1);color:#f87171;border:1px solid rgba(248,113,113,.25)}
+.b-amber{background:rgba(251,191,36,.1);color:#fbbf24;border:1px solid rgba(251,191,36,.25)}
+
+/* PHASE PROGRESS GRID */
+.phase-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:14px}
+@media(min-width:420px){.phase-grid{grid-template-columns:repeat(4,1fr)}}
+.ph-chip{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;text-align:center}
+.ph-chip-label{font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:3px}
+.ph-chip-val{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--ink)}
+.ph-chip-bar{height:2px;background:#1e1f2e;border-radius:1px;margin-top:4px;overflow:hidden}
+.ph-chip-fill{height:100%;background:var(--p2);border-radius:1px;transition:width .4s}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="title-block">
+      <div class="eyebrow">Senior Recruiter Curated · FAANG ML/AI Fresher</div>
+      <div class="htitle">ML/AI LeetCode<br>Topic Roadmap</div>
+      <div class="hsub">~180 curated problems · Topic-wise · What actually gets asked</div>
+    </div>
+  </div>
+  <div class="recruiter-note">
+    <strong>Senior Recruiter's Lens:</strong> For ML/AI fresher roles at FAANG, interviewers look for 3 things — <strong>pattern fluency</strong> (can you recognize the problem type in 2 minutes?), <strong>mathematical thinking</strong> (can you derive time/space complexity?), and <strong>ML connection</strong> (can you articulate why this matters in a model pipeline?). Every problem below is selected because it maps to a real ML/AI engineering concept. Low-priority problems are "nice to have" — solve them only after you've cleared all High and Medium priority items.
+  </div>
+</div>
+
+<!-- GLOBAL PROGRESS -->
+<div class="gp">
+  <div class="gp-row">
+    <div>
+      <div class="gp-label">Total Progress</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:2px" id="gp-sub">0 of 0 solved</div>
+    </div>
+    <div class="gp-pct" id="gp-pct">0%</div>
+  </div>
+  <div class="gp-track"><div class="gp-fill" id="gp-fill" style="width:0%"></div></div>
+  <div class="gp-counts" id="gp-counts"></div>
+  <button class="reset-btn" onclick="resetAll()">RESET ALL PROGRESS</button>
+</div>
+
+<div class="legend">
+  <div class="li"><div class="dot" style="background:#f87171"></div>High — must solve</div>
+  <div class="li"><div class="dot" style="background:#fbbf24"></div>Medium — solve after highs</div>
+  <div class="li"><div class="dot" style="background:#6b6980"></div>Low — polish round</div>
+</div>
+
+<!-- TAB NAV -->
+<div class="tnav">
+  <button class="tbtn active" onclick="sw(0)">Arrays & Math<div class="tp" id="tp0" style="width:0%"></div></button>
+  <button class="tbtn" onclick="sw(1)">Strings & Parsing<div class="tp" id="tp1" style="width:0%"></div></button>
+  <button class="tbtn" onclick="sw(2)">Sorting & Search<div class="tp" id="tp2" style="width:0%"></div></button>
+  <button class="tbtn" onclick="sw(3)">Trees & Graphs<div class="tp" id="tp3" style="width:0%"></div></button>
+  <button class="tbtn" onclick="sw(4)">DP & Optimization<div class="tp" id="tp4" style="width:0%"></div></button>
+  <button class="tbtn" onclick="sw(5)">ML-Specific Topics<div class="tp" id="tp5" style="width:0%"></div></button>
+</div>
+
+<!-- ===== TAB 0: ARRAYS & MATH ===== -->
+<div class="panel vis" id="tab0">
+  <div class="phase-hdr">
+    <div class="phase-num">01</div>
+    <div class="phase-info">
+      <div class="phase-title">Arrays, Matrices & Math</div>
+      <div class="phase-desc">Foundation of every ML interview. Numpy, tensor ops, and all matrix operations in deep learning reduce to these patterns. If you can't do array manipulation in your sleep, you'll struggle explaining how attention works.</div>
+    </div>
+    <div class="phase-badge b-purple">FOUNDATION</div>
+  </div>
+
+  <!-- TOPIC: Array Manipulation -->
+  <div class="topic-card" id="t0">
+    <div class="topic-hdr" onclick="togT('t0')">
+      <div class="topic-icon" style="background:rgba(192,132,252,.1)">🔢</div>
+      <div class="topic-info">
+        <div class="topic-name">Array Manipulation & Prefix Sums</div>
+        <div class="topic-sub">Maps to: NumPy broadcasting, cumulative stats, rolling features</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t0" style="width:0%;background:var(--p1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t0">0/8</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="rtip"><div class="rtip-label">RECRUITER SIGNAL</div>Interviewers use prefix sum problems to check if you understand cumulative distributions — a core concept in CDF computation, reward-to-go in RL, and attention score normalization.</div>
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t0')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Product of Array Except Self</div><div class="pwhy">Classic prefix/suffix pattern — mirrors forward-backward algorithm in HMMs</div><div class="ptags"><span class="ptag tag-p">Prefix</span><span class="ptag tag-g">No division</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t0')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Subarray Sum Equals K</div><div class="pwhy">HashMap + prefix — directly maps to sliding window loss tracking in training loops</div><div class="ptags"><span class="ptag tag-p">Prefix+Hash</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t0')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Maximum Subarray (Kadane's)</div><div class="pwhy">Kadane's = simplified 1D DP. Interviewers ask this to test DP intuition before harder problems</div><div class="ptags"><span class="ptag tag-p">Kadane's</span><span class="ptag tag-g">DP Lite</span></div></div><span class="pdiff de">Easy</span></div>
+        <div class="prow" onclick="ck(this,'t0')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Range Sum Query 2D - Immutable</div><div class="pwhy">2D prefix sums = foundation of conv layer receptive field computation</div><div class="ptags"><span class="ptag tag-p">2D Prefix</span><span class="ptag tag-b">Matrix</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t0')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Continuous Subarray Sum</div><div class="pwhy">Modular prefix — tests number theory awareness, shows mathematical maturity</div><div class="ptags"><span class="ptag tag-p">Prefix</span><span class="ptag tag-y">Modular Math</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t0')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Find Pivot Index</div><div class="pwhy">Simple prefix — warm-up for the harder 2D variant</div><div class="ptags"><span class="ptag tag-p">Prefix</span></div></div><span class="pdiff de">Easy</span></div>
+        <div class="prow" onclick="ck(this,'t0')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Subarray Product Less Than K</div><div class="pwhy">Sliding window on products — gradient product chain reasoning</div><div class="ptags"><span class="ptag tag-p">Sliding W</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t0')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Shortest Unsorted Continuous Subarray</div><div class="pwhy">Min/max tracking — like monitoring metric bounds in training</div><div class="ptags"><span class="ptag tag-g">Two Pass</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="mlwhy"><div class="mlwhy-label">WHY IT MATTERS IN ML</div><div class="mlwhy-text">Prefix sums underpin cumulative reward computation in RL (discounted returns), CDF calculations in quantile regression, and efficient conv operations. Every ML engineer should solve these without looking up the pattern.</div></div>
+    </div>
+  </div>
+
+  <!-- TOPIC: Matrix Operations -->
+  <div class="topic-card" id="t1">
+    <div class="topic-hdr" onclick="togT('t1')">
+      <div class="topic-icon" style="background:rgba(96,165,250,.1)">⊞</div>
+      <div class="topic-info">
+        <div class="topic-name">Matrix Operations</div>
+        <div class="topic-sub">Maps to: tensor ops, attention matrices, conv layers, embeddings</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t1" style="width:0%;background:var(--b1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t1">0/7</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="rtip"><div class="rtip-label">RECRUITER SIGNAL</div>Matrix questions are the single most asked category in ML engineering interviews. Ability to think in 2D/3D tensors fluently is non-negotiable for roles involving model architecture or data pipelines.</div>
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t1')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Rotate Image</div><div class="pwhy">In-place matrix rotation — mirrors data augmentation transforms and tensor reshaping</div><div class="ptags"><span class="ptag tag-b">Matrix</span><span class="ptag tag-y">In-place</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t1')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Spiral Matrix</div><div class="pwhy">Directional traversal — reinforces index arithmetic used in conv stride/padding calculations</div><div class="ptags"><span class="ptag tag-b">Matrix</span><span class="ptag tag-g">Simulation</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t1')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Set Matrix Zeroes</div><div class="pwhy">In-place state propagation — sparse matrix and mask operations in transformers</div><div class="ptags"><span class="ptag tag-b">Matrix</span><span class="ptag tag-y">In-place</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t1')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Search a 2D Matrix II</div><div class="pwhy">Staircase search on sorted matrix — key skill for efficient feature lookup tables</div><div class="ptags"><span class="ptag tag-b">Matrix</span><span class="ptag tag-p">Bin Search</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t1')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Number of Islands</div><div class="pwhy">Grid DFS/BFS — connected component labeling used in image segmentation models</div><div class="ptags"><span class="ptag tag-b">Grid DFS</span><span class="ptag tag-g">BFS</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t1')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Pacific Atlantic Water Flow</div><div class="pwhy">Multi-source BFS — gradient flow analogy; useful framing for backprop discussion</div><div class="ptags"><span class="ptag tag-b">Multi-BFS</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t1')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Game of Life</div><div class="pwhy">Cellular automata — directly related to convolutional feature extraction logic</div><div class="ptags"><span class="ptag tag-b">Simulation</span><span class="ptag tag-y">In-place</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="mlwhy"><div class="mlwhy-label">WHY IT MATTERS IN ML</div><div class="mlwhy-text">Transformer self-attention produces an N×N matrix. Conv layers operate on H×W×C tensors. Interviewers ask matrix problems to verify you can reason about these shapes, strides, and in-place operations fluently — not just use PyTorch APIs blindly.</div></div>
+    </div>
+  </div>
+
+  <!-- TOPIC: Math & Number Theory -->
+  <div class="topic-card" id="t2">
+    <div class="topic-hdr" onclick="togT('t2')">
+      <div class="topic-icon" style="background:rgba(251,191,36,.1)">∑</div>
+      <div class="topic-info">
+        <div class="topic-name">Math, Probability & Number Theory</div>
+        <div class="topic-sub">Maps to: loss functions, sampling, statistical tests, normalization</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t2" style="width:0%;background:var(--y1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t2">0/7</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="rtip"><div class="rtip-label">RECRUITER SIGNAL</div>Math problems reveal whether a candidate can derive things from first principles — which FAANG ML teams specifically test because they want engineers who can debug numerical instabilities and reason about loss landscapes.</div>
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t2')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Pow(x, n)</div><div class="pwhy">Fast exponentiation — used in learning rate schedules and computing kernel functions</div><div class="ptags"><span class="ptag tag-y">Math</span><span class="ptag tag-p">Divide & Conquer</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t2')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Sqrt(x)</div><div class="pwhy">Newton's method under the hood — same iterative convergence as gradient descent</div><div class="ptags"><span class="ptag tag-y">Math</span><span class="ptag tag-p">Binary Search</span></div></div><span class="pdiff de">Easy</span></div>
+        <div class="prow" onclick="ck(this,'t2')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Random Pick with Weight</div><div class="pwhy">Weighted sampling via prefix sum + binary search — exact algorithm behind temperature sampling in LLMs</div><div class="ptags"><span class="ptag tag-y">Sampling</span><span class="ptag tag-p">Prefix+BS</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t2')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Reservoir Sampling (398. Random Pick Index)</div><div class="pwhy">Stream sampling — critical for understanding mini-batch construction from large datasets</div><div class="ptags"><span class="ptag tag-y">Reservoir</span><span class="ptag tag-g">Streaming</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t2')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Shuffle an Array</div><div class="pwhy">Fisher-Yates shuffle — foundation of dataset shuffling before each training epoch</div><div class="ptags"><span class="ptag tag-y">Randomization</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t2')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Excel Sheet Column Number</div><div class="pwhy">Base conversion — useful for understanding embedding index encoding</div><div class="ptags"><span class="ptag tag-y">Math</span></div></div><span class="pdiff de">Easy</span></div>
+        <div class="prow" onclick="ck(this,'t2')" data-tab="0"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Happy Number</div><div class="pwhy">Floyd's cycle — tests convergence reasoning similar to fixed-point analysis in optimization</div><div class="ptags"><span class="ptag tag-y">Floyd's</span><span class="ptag tag-g">Cycle Detect</span></div></div><span class="pdiff de">Easy</span></div>
+      </div></div>
+      <div class="mlwhy"><div class="mlwhy-label">WHY IT MATTERS IN ML</div><div class="mlwhy-text">Weighted sampling is literally how LLM token generation works. Fisher-Yates is run before every training epoch. Newton's method is the mathematical ancestor of every optimizer. These aren't trivia — they're daily tools for ML engineers.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 1: STRINGS & PARSING ===== -->
+<div class="panel" id="tab1">
+  <div class="phase-hdr">
+    <div class="phase-num">02</div>
+    <div class="phase-info">
+      <div class="phase-title">Strings, Parsing & Pattern Matching</div>
+      <div class="phase-desc">Critical for NLP engineering roles. Tokenization, vocabulary building, regex, and text preprocessing all involve the patterns tested here. A weak string game is a red flag for ML/NLP positions.</div>
+    </div>
+    <div class="phase-badge b-green">NLP CORE</div>
+  </div>
+
+  <div class="topic-card" id="t3">
+    <div class="topic-hdr" onclick="togT('t3')">
+      <div class="topic-icon" style="background:rgba(52,211,153,.1)">🔤</div>
+      <div class="topic-info">
+        <div class="topic-name">String Manipulation & Sliding Window</div>
+        <div class="topic-sub">Maps to: tokenization, n-gram extraction, text windowing</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t3" style="width:0%;background:var(--g1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t3">0/8</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="rtip"><div class="rtip-label">RECRUITER SIGNAL</div>NLP engineers at FAANG are expected to understand how tokenizers work internally. Sliding window string problems test exactly the thinking you need to implement BPE tokenization and sliding context windows.</div>
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t3')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Longest Substring Without Repeating Characters</div><div class="pwhy">Classic sliding window — mirror of attention context window management in transformers</div><div class="ptags"><span class="ptag tag-g">Sliding W</span><span class="ptag tag-p">HashMap</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t3')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Minimum Window Substring</div><div class="pwhy">Variable window — tests constraint tracking same as beam search feasibility checking</div><div class="ptags"><span class="ptag tag-g">Sliding W</span><span class="ptag tag-r">Hard Pattern</span></div></div><span class="pdiff dh">Hard</span></div>
+        <div class="prow" onclick="ck(this,'t3')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Longest Repeating Character Replacement</div><div class="pwhy">Frequency + window — directly models how BERT handles masked token replacement</div><div class="ptags"><span class="ptag tag-g">Sliding W</span><span class="ptag tag-p">Freq Count</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t3')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Group Anagrams</div><div class="pwhy">Frequency signature grouping — vocabulary clustering, synonym grouping in NLP</div><div class="ptags"><span class="ptag tag-p">HashMap</span><span class="ptag tag-g">Sorting</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t3')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Find All Anagrams in a String</div><div class="pwhy">Fixed-size window pattern match — n-gram matching in text corpora</div><div class="ptags"><span class="ptag tag-g">Fixed W</span><span class="ptag tag-p">Freq</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t3')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Longest Palindromic Substring</div><div class="pwhy">Expand around center — sequence symmetry reasoning in biological sequence models</div><div class="ptags"><span class="ptag tag-g">Expand</span><span class="ptag tag-p">DP</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t3')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">String Compression</div><div class="pwhy">Run-length encoding — lossless compression intuition for efficient data storage</div><div class="ptags"><span class="ptag tag-g">Two Ptr</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t3')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Decode String</div><div class="pwhy">Stack-based decoding — parallels auto-regressive decoding in sequence models</div><div class="ptags"><span class="ptag tag-r">Stack</span><span class="ptag tag-g">Recursion</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="mlwhy"><div class="mlwhy-label">WHY IT MATTERS IN ML</div><div class="mlwhy-text">Tokenization algorithms (BPE, WordPiece) are string algorithms at their core. Understanding sliding window over strings gives you the exact mental model for how transformers handle context length limits and attention masking.</div></div>
+    </div>
+  </div>
+
+  <div class="topic-card" id="t4">
+    <div class="topic-hdr" onclick="togT('t4')">
+      <div class="topic-icon" style="background:rgba(52,211,153,.1)">🌳</div>
+      <div class="topic-info">
+        <div class="topic-name">Tries & String Matching</div>
+        <div class="topic-sub">Maps to: vocabulary lookup, autocomplete, embedding tables, BPE merge rules</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t4" style="width:0%;background:var(--g1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t4">0/5</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="rtip"><div class="rtip-label">RECRUITER SIGNAL</div>Tries come up in every NLP-heavy interview. If you're applying for roles involving search, autocomplete, or language model serving — expect at least one Trie problem. It's almost a hazing ritual.</div>
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t4')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Implement Trie (Prefix Tree)</div><div class="pwhy">Core data structure — vocabulary trie is used in beam search decoding in NLP models</div><div class="ptags"><span class="ptag tag-g">Trie</span><span class="ptag tag-p">Design</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t4')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Design Add and Search Words Data Structure</div><div class="pwhy">Trie + wildcard DFS — matches fuzzy token lookup in embedding retrieval systems</div><div class="ptags"><span class="ptag tag-g">Trie+DFS</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t4')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Word Search II</div><div class="pwhy">Trie + backtracking — tests ability to combine data structures, common in ML system design qs</div><div class="ptags"><span class="ptag tag-g">Trie</span><span class="ptag tag-r">Backtrack</span></div></div><span class="pdiff dh">Hard</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t4')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Replace Words</div><div class="pwhy">Trie prefix matching — stemming and lemmatization preprocessing</div><div class="ptags"><span class="ptag tag-g">Trie</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t4')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Maximum XOR of Two Numbers in an Array</div><div class="pwhy">Bit Trie — tests bit manipulation + trie combo, advanced embedding similarity</div><div class="ptags"><span class="ptag tag-g">Bit Trie</span><span class="ptag tag-y">Bit Manip</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="topic-card" id="t5">
+    <div class="topic-hdr" onclick="togT('t5')">
+      <div class="topic-icon" style="background:rgba(52,211,153,.1)">📐</div>
+      <div class="topic-info">
+        <div class="topic-name">Edit Distance & Sequence Alignment</div>
+        <div class="topic-sub">Maps to: fuzzy matching, BLEU/ROUGE scoring, diff algorithms</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t5" style="width:0%;background:var(--g1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t5">0/4</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t5')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Edit Distance</div><div class="pwhy">Levenshtein distance — the algorithm behind spell checkers, fuzzy text matching, and WER in speech</div><div class="ptags"><span class="ptag tag-g">2D DP</span><span class="ptag tag-p">Classic</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t5')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Longest Common Subsequence</div><div class="pwhy">LCS = basis of ROUGE score, diff tools, and DNA sequence alignment algorithms</div><div class="ptags"><span class="ptag tag-g">2D DP</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t5')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Longest Common Substring (variant)</div><div class="pwhy">Substring vs subsequence distinction — important for understanding BLEU precision</div><div class="ptags"><span class="ptag tag-g">2D DP</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t5')" data-tab="1"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Distinct Subsequences</div><div class="pwhy">Count-based DP — sequence probability counting mirrors language model perplexity computation</div><div class="ptags"><span class="ptag tag-g">2D DP</span><span class="ptag tag-r">Hard</span></div></div><span class="pdiff dh">Hard</span></div>
+      </div></div>
+      <div class="mlwhy"><div class="mlwhy-label">WHY IT MATTERS IN ML</div><div class="mlwhy-text">Edit distance is how FAANG evaluates translation and speech models (WER, CER). LCS is the backbone of ROUGE. These aren't academic exercises — they're literally production evaluation metrics you'll implement or debug on the job.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 2: SORTING & SEARCH ===== -->
+<div class="panel" id="tab2">
+  <div class="phase-hdr">
+    <div class="phase-num">03</div>
+    <div class="phase-info">
+      <div class="phase-title">Sorting, Searching & Heaps</div>
+      <div class="phase-desc">Every ML pipeline involves ranking, top-K selection, and efficient search. These patterns appear in recommendation systems, KNN, beam search, and feature selection. Interviewers use this category to test algorithmic efficiency reasoning.</div>
+    </div>
+    <div class="phase-badge b-blue">EFFICIENCY</div>
+  </div>
+
+  <div class="topic-card" id="t6">
+    <div class="topic-hdr" onclick="togT('t6')">
+      <div class="topic-icon" style="background:rgba(96,165,250,.1)">🔍</div>
+      <div class="topic-info">
+        <div class="topic-name">Binary Search & Variants</div>
+        <div class="topic-sub">Maps to: hyperparameter search, threshold tuning, sorted embedding lookup</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t6" style="width:0%;background:var(--b1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t6">0/8</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="rtip"><div class="rtip-label">RECRUITER SIGNAL</div>"Binary search on the answer" is the most underrated pattern in ML interviews. It directly maps to hyperparameter tuning logic, optimal batch size search, and precision-recall threshold selection.</div>
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t6')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Search in Rotated Sorted Array</div><div class="pwhy">Modified binary search — interviewers use this to check if you can handle distribution shift in sorted data</div><div class="ptags"><span class="ptag tag-b">Binary Search</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t6')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Koko Eating Bananas</div><div class="pwhy">Binary search on answer — same logic as finding optimal learning rate or batch size</div><div class="ptags"><span class="ptag tag-b">BS on Ans</span><span class="ptag tag-p">Optimization</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t6')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Find Minimum in Rotated Sorted Array</div><div class="pwhy">Invariant-based binary search — teaches careful reasoning, crucial for numeric stability checks</div><div class="ptags"><span class="ptag tag-b">Binary Search</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t6')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Time Based Key-Value Store</div><div class="pwhy">Binary search on timestamps — feature store temporal lookup, point-in-time correct feature retrieval</div><div class="ptags"><span class="ptag tag-b">Binary Search</span><span class="ptag tag-p">Design</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t6')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Capacity To Ship Packages Within D Days</div><div class="pwhy">Binary search on capacity — batch partitioning optimization in distributed training</div><div class="ptags"><span class="ptag tag-b">BS on Ans</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t6')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Find Peak Element</div><div class="pwhy">Local maxima binary search — parallels finding local minima in loss surfaces</div><div class="ptags"><span class="ptag tag-b">Binary Search</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t6')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Find K Closest Elements</div><div class="pwhy">Binary search + two pointers — KNN query in embedding space retrieval</div><div class="ptags"><span class="ptag tag-b">Binary Search</span><span class="ptag tag-g">Two Ptr</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t6')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Median of Two Sorted Arrays</div><div class="pwhy">Advanced binary search — understanding statistical median for data preprocessing</div><div class="ptags"><span class="ptag tag-b">Binary Search</span><span class="ptag tag-r">Hard</span></div></div><span class="pdiff dh">Hard</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="topic-card" id="t7">
+    <div class="topic-hdr" onclick="togT('t7')">
+      <div class="topic-icon" style="background:rgba(96,165,250,.1)">📊</div>
+      <div class="topic-info">
+        <div class="topic-name">Heaps & Top-K Selection</div>
+        <div class="topic-sub">Maps to: beam search, KNN, recommendation top-K, priority queues in training</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t7" style="width:0%;background:var(--b1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t7">0/7</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="rtip"><div class="rtip-label">RECRUITER SIGNAL</div>Top-K is literally the output layer of recommendation systems. Every FAANG ML interview for rec system or search roles will have at least one heap/top-K problem. This is non-optional.</div>
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t7')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Kth Largest Element in an Array</div><div class="pwhy">QuickSelect or heap — top-K retrieval from candidate sets in recommendation pipelines</div><div class="ptags"><span class="ptag tag-b">Heap</span><span class="ptag tag-p">QuickSelect</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t7')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Top K Frequent Elements</div><div class="pwhy">Frequency + heap — feature importance ranking, vocabulary frequency in NLP</div><div class="ptags"><span class="ptag tag-b">Heap</span><span class="ptag tag-p">Bucket Sort</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t7')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">K Closest Points to Origin</div><div class="pwhy">Max-heap for min-K — exact algorithm used in FAISS for approximate nearest neighbor search</div><div class="ptags"><span class="ptag tag-b">Heap</span><span class="ptag tag-g">Distance</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t7')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Find Median from Data Stream</div><div class="pwhy">Two heaps (online algorithm) — real-time statistics tracking in streaming ML pipelines</div><div class="ptags"><span class="ptag tag-b">Two Heaps</span><span class="ptag tag-r">Hard Pattern</span></div></div><span class="pdiff dh">Hard</span></div>
+        <div class="prow" onclick="ck(this,'t7')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Merge K Sorted Lists</div><div class="pwhy">Min-heap merge — distributed training result aggregation, merging model output shards</div><div class="ptags"><span class="ptag tag-b">Min Heap</span></div></div><span class="pdiff dh">Hard</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t7')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Task Scheduler</div><div class="pwhy">Greedy + heap — GPU task scheduling, parallel training job prioritization</div><div class="ptags"><span class="ptag tag-b">Heap</span><span class="ptag tag-p">Greedy</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t7')" data-tab="2"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Sliding Window Median</div><div class="pwhy">Two heaps on sliding window — online metric tracking with bounded memory</div><div class="ptags"><span class="ptag tag-b">Two Heaps</span><span class="ptag tag-g">Sliding W</span></div></div><span class="pdiff dh">Hard</span></div>
+      </div></div>
+      <div class="mlwhy"><div class="mlwhy-label">WHY IT MATTERS IN ML</div><div class="mlwhy-text">Beam search keeps a heap of top-K candidate sequences. FAISS uses heap-based KNN. Recommendation systems output top-K items. Every time you call model.predict() and get ranked results, a heap is involved somewhere in the pipeline.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 3: TREES & GRAPHS ===== -->
+<div class="panel" id="tab3">
+  <div class="phase-hdr">
+    <div class="phase-num">04</div>
+    <div class="phase-info">
+      <div class="phase-title">Trees, Graphs & DAGs</div>
+      <div class="phase-desc">Computation graphs, decision trees, neural network DAGs, dependency resolution in training pipelines — all are graph problems. This is the category where ML-specific graph intuition separates strong candidates.</div>
+    </div>
+    <div class="phase-badge b-amber">GRAPH THINKING</div>
+  </div>
+
+  <div class="topic-card" id="t8">
+    <div class="topic-hdr" onclick="togT('t8')">
+      <div class="topic-icon" style="background:rgba(251,191,36,.1)">🌲</div>
+      <div class="topic-info">
+        <div class="topic-name">Binary Trees & BSTs</div>
+        <div class="topic-sub">Maps to: decision trees, segment trees, hierarchical clustering</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t8" style="width:0%;background:var(--y1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t8">0/9</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="rtip"><div class="rtip-label">RECRUITER SIGNAL</div>Decision trees, random forests, and XGBoost are tree structures. Interviewers expect ML candidates to move through tree problems fluently and draw analogies to model internals unprompted.</div>
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t8')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Binary Tree Level Order Traversal</div><div class="pwhy">BFS on tree — layer-by-layer processing mirrors forward pass through a neural network</div><div class="ptags"><span class="ptag tag-y">BFS</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t8')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Binary Tree Maximum Path Sum</div><div class="pwhy">Post-order DFS with state — mirrors backprop where gradients flow up from leaves</div><div class="ptags"><span class="ptag tag-y">DFS</span><span class="ptag tag-r">Hard Pattern</span></div></div><span class="pdiff dh">Hard</span></div>
+        <div class="prow" onclick="ck(this,'t8')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Lowest Common Ancestor of a BST</div><div class="pwhy">LCA = common ancestor in computation graph — critical for understanding gradient accumulation</div><div class="ptags"><span class="ptag tag-y">BST</span><span class="ptag tag-g">Recursion</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t8')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Serialize and Deserialize Binary Tree</div><div class="pwhy">Tree encoding/decoding — model checkpoint serialization, computation graph export (ONNX)</div><div class="ptags"><span class="ptag tag-y">BFS/DFS</span><span class="ptag tag-p">Design</span></div></div><span class="pdiff dh">Hard</span></div>
+        <div class="prow" onclick="ck(this,'t8')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Validate Binary Search Tree</div><div class="pwhy">Invariant checking — analogous to validating model architecture constraints</div><div class="ptags"><span class="ptag tag-y">DFS</span><span class="ptag tag-g">BST</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t8')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Construct Binary Tree from Preorder and Inorder Traversal</div><div class="pwhy">Tree reconstruction from traversal — understanding parse trees in NLP</div><div class="ptags"><span class="ptag tag-y">Recursion</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t8')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Diameter of Binary Tree</div><div class="pwhy">Longest path — analogous to critical path in computational DAG scheduling</div><div class="ptags"><span class="ptag tag-y">DFS</span></div></div><span class="pdiff de">Easy</span></div>
+        <div class="prow" onclick="ck(this,'t8')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Path Sum II</div><div class="pwhy">Root-to-leaf paths — decision tree path enumeration from root to prediction</div><div class="ptags"><span class="ptag tag-y">Backtrack</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t8')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Kth Smallest Element in a BST</div><div class="pwhy">In-order traversal — sorted feature ranking, quantile-based feature binning</div><div class="ptags"><span class="ptag tag-y">In-order</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="topic-card" id="t9">
+    <div class="topic-hdr" onclick="togT('t9')">
+      <div class="topic-icon" style="background:rgba(251,191,36,.1)">🕸</div>
+      <div class="topic-info">
+        <div class="topic-name">Graphs, DAGs & Topological Sort</div>
+        <div class="topic-sub">Maps to: computation graphs, PyTorch autograd, pipeline dependency resolution</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t9" style="width:0%;background:var(--y1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t9">0/8</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="rtip"><div class="rtip-label">RECRUITER SIGNAL</div>PyTorch's autograd engine builds a DAG and runs topological sort to compute gradients. Interviewers ask graph problems to see if you understand what's happening under the hood of every deep learning framework.</div>
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t9')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Course Schedule (Topological Sort)</div><div class="pwhy">Cycle detection in DAG — computation graph validation in ML frameworks (circular dependencies)</div><div class="ptags"><span class="ptag tag-y">Topo Sort</span><span class="ptag tag-b">DAG</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t9')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Course Schedule II</div><div class="pwhy">Ordered topological sort — exact order of layer execution in forward pass scheduling</div><div class="ptags"><span class="ptag tag-y">Topo Sort</span><span class="ptag tag-b">Kahn's</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t9')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Clone Graph</div><div class="pwhy">Graph deep copy — model cloning, ensemble member initialization, checkpoint forking</div><div class="ptags"><span class="ptag tag-y">BFS</span><span class="ptag tag-p">HashMap</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t9')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Word Ladder</div><div class="pwhy">BFS shortest path — edit-distance-based token graph traversal in NLP</div><div class="ptags"><span class="ptag tag-y">BFS</span></div></div><span class="pdiff dh">Hard</span></div>
+        <div class="prow" onclick="ck(this,'t9')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Number of Connected Components in Undirected Graph</div><div class="pwhy">Union-Find — clustering, connected feature groups, data deduplication</div><div class="ptags"><span class="ptag tag-y">Union Find</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t9')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Alien Dictionary</div><div class="pwhy">Topo sort on character constraints — custom tokenizer ordering, vocab precedence rules</div><div class="ptags"><span class="ptag tag-y">Topo Sort</span><span class="ptag tag-r">Hard</span></div></div><span class="pdiff dh">Hard</span></div>
+        <div class="prow" onclick="ck(this,'t9')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Network Delay Time (Dijkstra)</div><div class="pwhy">Shortest path — critical path analysis in distributed training latency optimization</div><div class="ptags"><span class="ptag tag-y">Dijkstra</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t9')" data-tab="3"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Cheapest Flights Within K Stops</div><div class="pwhy">Bellman-Ford with constraint — constrained path planning in RL agents</div><div class="ptags"><span class="ptag tag-y">Bellman-Ford</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="mlwhy"><div class="mlwhy-label">WHY IT MATTERS IN ML</div><div class="mlwhy-text">PyTorch autograd literally runs topo sort every time you call loss.backward(). TensorFlow's static graph compilation is topological ordering. Understanding graphs at code level means you can debug autograd issues, optimize computation graphs, and reason about parallelization.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 4: DP & OPTIMIZATION ===== -->
+<div class="panel" id="tab4">
+  <div class="phase-hdr">
+    <div class="phase-num">05</div>
+    <div class="phase-info">
+      <div class="phase-title">Dynamic Programming & Optimization</div>
+      <div class="phase-desc">DP is the mathematical backbone of ML. Viterbi decoding, CTC loss, HMM inference, and RL policy optimization are all DP algorithms. Mastering DP patterns will make you a significantly stronger ML candidate than someone who only knows the API.</div>
+    </div>
+    <div class="phase-badge b-red">ML MATH CORE</div>
+  </div>
+
+  <div class="topic-card" id="t10">
+    <div class="topic-hdr" onclick="togT('t10')">
+      <div class="topic-icon" style="background:rgba(248,113,113,.1)">⚡</div>
+      <div class="topic-info">
+        <div class="topic-name">1D Dynamic Programming</div>
+        <div class="topic-sub">Maps to: sequence models, reward-to-go in RL, Viterbi decoding</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t10" style="width:0%;background:var(--r1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t10">0/8</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="rtip"><div class="rtip-label">RECRUITER SIGNAL</div>DP problems are used to filter candidates who can think in subproblems. In ML, this is critical because training = solving a massive optimization problem by breaking it into mini-batches. Candidates who can't think in DP often struggle with algorithm design in ML systems.</div>
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t10')" data-tab="4"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Coin Change</div><div class="pwhy">Unbounded knapsack — budget allocation in hyperparameter search, reward shaping in RL</div><div class="ptags"><span class="ptag tag-r">1D DP</span><span class="ptag tag-p">Unbounded KS</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t10')" data-tab="4"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Longest Increasing Subsequence</div><div class="pwhy">Patience sorting / DP — curriculum learning sequence ordering, monotonic trend detection</div><div class="ptags"><span class="ptag tag-r">1D DP</span><span class="ptag tag-b">Binary Search</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t10')" data-tab="4"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Word Break</div><div class="pwhy">DP on string segmentation — tokenization feasibility, BPE segmentation check</div><div class="ptags"><span class="ptag tag-r">1D DP</span><span class="ptag tag-g">String</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t10')" data-tab="4"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Decode Ways</div><div class="pwhy">Fibonacci DP with constraints — sequence decoding probability computation in sequence models</div><div class="ptags"><span class="ptag tag-r">1D DP</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t10')" data-tab="4"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">House Robber II</div><div class="pwhy">Circular 1D DP — cyclic structure handling in graph neural networks</div><div class="ptags"><span class="ptag tag-r">1D DP</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t10')" data-tab="4"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Jump Game II</div><div class="pwhy">Greedy DP — minimum step curriculum planning in RL environments</div><div class="ptags"><span class="ptag tag-r">Greedy DP</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t10')" data-tab="4"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Best Time to Buy and Sell Stock with Cooldown</div><div class="pwhy">State-machine DP — Markov Decision Process state transitions in RL</div><div class="ptags"><span class="ptag tag-r">State DP</span><span class="ptag tag-p">MDP</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t10')" data-tab="4"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Partition Equal Subset Sum</div><div class="pwhy">0/1 Knapsack — data splitting optimization, class-balanced dataset partitioning</div><div class="ptags"><span class="ptag tag-r">0/1 KS</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="topic-card" id="t11">
+    <div class="topic-hdr" onclick="togT('t11')">
+      <div class="topic-icon" style="background:rgba(248,113,113,.1)">🧮</div>
+      <div class="topic-info">
+        <div class="topic-name">2D DP & Interval DP</div>
+        <div class="topic-sub">Maps to: CTC loss, attention alignment, sequence-to-sequence models</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t11" style="width:0%;background:var(--r1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t11">0/6</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="rtip"><div class="rtip-label">RECRUITER SIGNAL</div>CTC loss — used in speech recognition at every major FAANG AI lab — is a 2D DP algorithm. If you've touched ASR, TTS, or seq2seq models, you're expected to know how this DP unfolds. This section proves you understand alignment, not just APIs.</div>
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t11')" data-tab="4"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Edit Distance</div><div class="pwhy">Levenshtein 2D DP — CTC alignment, WER computation, string-to-string neural translation</div><div class="ptags"><span class="ptag tag-r">2D DP</span><span class="ptag tag-p">Classic</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t11')" data-tab="4"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Longest Common Subsequence</div><div class="pwhy">Alignment matrix — same table computed during attention visualization and sequence alignment</div><div class="ptags"><span class="ptag tag-r">2D DP</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t11')" data-tab="4"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Unique Paths II</div><div class="pwhy">Grid DP with obstacles — masked attention, dropout-aware path counting in transformers</div><div class="ptags"><span class="ptag tag-r">Grid DP</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t11')" data-tab="4"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Maximal Square</div><div class="pwhy">2D DP for max area — max receptive field calculation in convolutional architectures</div><div class="ptags"><span class="ptag tag-r">2D DP</span><span class="ptag tag-b">Matrix</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t11')" data-tab="4"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Interleaving String</div><div class="pwhy">2D DP feasibility — multi-stream data interleaving in training pipelines</div><div class="ptags"><span class="ptag tag-r">2D DP</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t11')" data-tab="4"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Burst Balloons</div><div class="pwhy">Interval DP — optimal computation graph contraction ordering</div><div class="ptags"><span class="ptag tag-r">Interval DP</span><span class="ptag tag-g">Divide & Conquer</span></div></div><span class="pdiff dh">Hard</span></div>
+      </div></div>
+      <div class="mlwhy"><div class="mlwhy-label">WHY IT MATTERS IN ML</div><div class="mlwhy-text">CTC loss computes a 2D DP table to align input and output sequences without explicit segmentation. The Viterbi algorithm for HMMs is a 2D DP table. Neural machine translation attention alignment visualizations are literally DP alignment matrices. This isn't academic — it's production code.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 5: ML-SPECIFIC ===== -->
+<div class="panel" id="tab5">
+  <div class="phase-hdr">
+    <div class="phase-num">06</div>
+    <div class="phase-info">
+      <div class="phase-title">ML-Specific Patterns</div>
+      <div class="phase-desc">These topics are tested specifically because they map directly to ML system internals — streaming algorithms, design problems, and data structure design that every ML engineer encounters. A strong candidate connects every solution to a real production ML concept.</div>
+    </div>
+    <div class="phase-badge b-purple">ML-NATIVE</div>
+  </div>
+
+  <div class="topic-card" id="t12">
+    <div class="topic-hdr" onclick="togT('t12')">
+      <div class="topic-icon" style="background:rgba(192,132,252,.1)">🌊</div>
+      <div class="topic-info">
+        <div class="topic-name">Streaming Algorithms & Online Learning</div>
+        <div class="topic-sub">Maps to: online ML, real-time feature engineering, streaming data pipelines</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t12" style="width:0%;background:var(--p1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t12">0/6</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="rtip"><div class="rtip-label">RECRUITER SIGNAL</div>Real-time ML at FAANG scale requires streaming algorithms. Candidates who can implement online statistics (running mean, median, variance) and reservoir sampling without looking anything up are immediately flagged as strong by interviewers on ML platform teams.</div>
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t12')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Find Median from Data Stream</div><div class="pwhy">Online median computation — real-time feature normalization in streaming feature stores</div><div class="ptags"><span class="ptag tag-p">Two Heaps</span><span class="ptag tag-g">Online Algo</span></div></div><span class="pdiff dh">Hard</span></div>
+        <div class="prow" onclick="ck(this,'t12')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Moving Average from Data Stream</div><div class="pwhy">Sliding window mean — exponential moving average in online learning, Adam optimizer momentum</div><div class="ptags"><span class="ptag tag-p">Queue</span><span class="ptag tag-g">Online Algo</span></div></div><span class="pdiff de">Easy</span></div>
+        <div class="prow" onclick="ck(this,'t12')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Random Pick with Weight (Reservoir Sampling)</div><div class="pwhy">Weighted stream sampling — online dataset construction, importance sampling in RL</div><div class="ptags"><span class="ptag tag-p">Reservoir</span><span class="ptag tag-y">Prob</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t12')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">LRU Cache</div><div class="pwhy">Eviction policy — embedding cache in model serving, KV cache in transformer inference</div><div class="ptags"><span class="ptag tag-p">DLL+HashMap</span><span class="ptag tag-b">Design</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t12')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Design Hit Counter</div><div class="pwhy">Time-bucketed counting — online metric tracking for model performance dashboards</div><div class="ptags"><span class="ptag tag-p">Deque</span><span class="ptag tag-b">Design</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t12')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Maximum Frequency Stack</div><div class="pwhy">Frequency-ordered access — priority-based experience replay in RL agents</div><div class="ptags"><span class="ptag tag-p">HashMap+Stack</span></div></div><span class="pdiff dh">Hard</span></div>
+      </div></div>
+      <div class="mlwhy"><div class="mlwhy-label">WHY IT MATTERS IN ML</div><div class="mlwhy-text">Adam optimizer maintains a running mean and variance — that's an online algorithm. KV cache in LLM inference is an LRU cache. Replay buffers in RL use priority queues. These are the data structures inside every ML system you'll touch at FAANG.</div></div>
+    </div>
+  </div>
+
+  <div class="topic-card" id="t13">
+    <div class="topic-hdr" onclick="togT('t13')">
+      <div class="topic-icon" style="background:rgba(192,132,252,.1)">🎯</div>
+      <div class="topic-info">
+        <div class="topic-name">Backtracking & Combinatorics</div>
+        <div class="topic-sub">Maps to: hyperparameter search, NAS (Neural Architecture Search), beam search</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t13" style="width:0%;background:var(--p1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t13">0/6</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="rtip"><div class="rtip-label">RECRUITER SIGNAL</div>Backtracking demonstrates recursive problem decomposition — the same mental model required to design search spaces in AutoML and NAS. Interviewers use it to see if you can reason about exponential search spaces without panic.</div>
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t13')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Subsets II (with duplicates)</div><div class="pwhy">Subset enumeration — feature subset selection in feature engineering, ablation study design</div><div class="ptags"><span class="ptag tag-p">Backtrack</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t13')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Combination Sum II</div><div class="pwhy">Constrained combination search — architecture search with budget constraints in NAS</div><div class="ptags"><span class="ptag tag-p">Backtrack</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t13')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Permutations II (with duplicates)</div><div class="pwhy">Deduplication in search — data augmentation permutation strategies</div><div class="ptags"><span class="ptag tag-p">Backtrack</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t13')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">N-Queens</div><div class="pwhy">Constraint satisfaction — CSP formulation used in scheduling ML training jobs with GPU constraints</div><div class="ptags"><span class="ptag tag-p">Backtrack</span><span class="ptag tag-r">CSP</span></div></div><span class="pdiff dh">Hard</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t13')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Generate Parentheses</div><div class="pwhy">Constrained generation — controlled text generation with syntax constraints in LLMs</div><div class="ptags"><span class="ptag tag-p">Backtrack</span><span class="ptag tag-g">Generation</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t13')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Letter Combinations of a Phone Number</div><div class="pwhy">Cartesian product expansion — multi-hot encoding, cross-feature combination generation</div><div class="ptags"><span class="ptag tag-p">Backtrack</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="topic-card" id="t14">
+    <div class="topic-hdr" onclick="togT('t14')">
+      <div class="topic-icon" style="background:rgba(192,132,252,.1)">🧠</div>
+      <div class="topic-info">
+        <div class="topic-name">ML Interview Design Problems</div>
+        <div class="topic-sub">Problems with direct ML system analogies — asked as coding + explain combos</div>
+        <div class="topic-mini"><div class="topic-mini-fill" id="mf-t14" style="width:0%;background:var(--p1)"></div></div>
+      </div>
+      <span class="topic-cnt" id="tc-t14">0/7</span>
+      <span class="topic-chev">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="rtip"><div class="rtip-label">RECRUITER SIGNAL</div>These problems are asked as "code it + explain the ML connection." Strong candidates write the solution and immediately say "this is how X works in PyTorch/TensorFlow." That combination is what gets you to the offer stage at FAANG ML teams.</div>
+      <div class="psec"><div class="psec-label lc-high">● HIGH PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t14')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Design HashMap</div><div class="pwhy">Hash table internals — embedding lookup tables, weight hashing trick for memory efficiency</div><div class="ptags"><span class="ptag tag-p">Design</span><span class="ptag tag-b">Hashing</span></div></div><span class="pdiff de">Easy</span></div>
+        <div class="prow" onclick="ck(this,'t14')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Implement Queue using Stacks</div><div class="pwhy">FIFO from LIFO — mini-batch queue construction from stack-based data loaders</div><div class="ptags"><span class="ptag tag-p">Design</span><span class="ptag tag-g">Stack</span></div></div><span class="pdiff de">Easy</span></div>
+        <div class="prow" onclick="ck(this,'t14')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Design Circular Buffer / Queue</div><div class="pwhy">Ring buffer — exactly what replay buffers in DQN use, streaming data ingestion</div><div class="ptags"><span class="ptag tag-p">Design</span><span class="ptag tag-r">RL</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t14')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">LFU Cache</div><div class="pwhy">Frequency-based eviction — optimal embedding cache policy for serving high-traffic ML models</div><div class="ptags"><span class="ptag tag-p">Design</span><span class="ptag tag-b">Cache</span></div></div><span class="pdiff dh">Hard</span></div>
+        <div class="prow" onclick="ck(this,'t14')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Encode and Decode Strings</div><div class="pwhy">Serialization protocol — model weight serialization, protobuf encoding in ML pipelines</div><div class="ptags"><span class="ptag tag-p">Design</span><span class="ptag tag-g">String</span></div></div><span class="pdiff dm">Med</span></div>
+      </div></div>
+      <div class="psec"><div class="psec-label lc-med">● MEDIUM PRIORITY</div><div class="plist">
+        <div class="prow" onclick="ck(this,'t14')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Design a Leaderboard</div><div class="pwhy">Sorted scores + update — real-time model performance leaderboard in AutoML competitions</div><div class="ptags"><span class="ptag tag-p">Design</span><span class="ptag tag-b">Sorted Set</span></div></div><span class="pdiff dm">Med</span></div>
+        <div class="prow" onclick="ck(this,'t14')" data-tab="5"><div class="cb"><span class="cbtick">✓</span></div><div class="prow-meta"><div class="pname">Design Search Autocomplete System</div><div class="pwhy">Trie + frequency + ranking — exactly how token prediction heads work in LLM inference serving</div><div class="ptags"><span class="ptag tag-p">Trie+Heap</span><span class="ptag tag-r">Hard</span></div></div><span class="pdiff dh">Hard</span></div>
+      </div></div>
+      <div class="mlwhy"><div class="mlwhy-label">WHY IT MATTERS IN ML</div><div class="mlwhy-text">DQN's replay buffer is a circular queue. KV cache in LLM inference is a bounded hash map. Embedding lookup in recommendation models is a hash table. These design problems test whether you can build the data structures that ML systems run on — not just the models themselves.</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SK2 = 'faang_mlai_roadmap_v1';
+function loadS(){try{return JSON.parse(localStorage.getItem(SK2))||{};}catch(e){return {};}}
+function saveS(s){try{localStorage.setItem(SK2,JSON.stringify(s));}catch(e){}}
+function getKey(row,tid){return tid+'|'+row.querySelector('.pname').textContent.trim().slice(0,50);}
+
+function ck(row,tid){
+  const s=loadS();const k=getKey(row,tid);
+  const done=!row.classList.contains('done');
+  if(done)s[k]=1;else delete s[k];
+  saveS(s);row.classList.toggle('done',done);
+  updateTopic(tid);updateGlobal();
+}
+
+function updateTopic(tid){
+  const card=document.getElementById(tid);
+  if(!card)return;
+  const rows=card.querySelectorAll('.prow');
+  const total=rows.length;
+  const done=card.querySelectorAll('.prow.done').length;
+  const tc=document.getElementById('tc-'+tid);
+  const mf=document.getElementById('mf-'+tid);
+  if(tc)tc.textContent=done+'/'+total;
+  if(mf)mf.style.width=(total?Math.round(done/total*100):0)+'%';
+  card.classList.toggle('all-done',done===total&&total>0);
+}
+
+function updateGlobal(){
+  const all=document.querySelectorAll('.prow');
+  const total=all.length;
+  const done=document.querySelectorAll('.prow.done').length;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('gp-pct').textContent=pct+'%';
+  document.getElementById('gp-sub').textContent=done+' of '+total+' solved';
+  document.getElementById('gp-fill').style.width=pct+'%';
+
+  // per-tab
+  for(let i=0;i<=5;i++){
+    const tabRows=document.querySelectorAll('.prow[data-tab="'+i+'"]');
+    const tt=tabRows.length;
+    const td=document.querySelectorAll('.prow.done[data-tab="'+i+'"]').length;
+    const tp=tt?Math.round(td/tt*100):0;
+    const tpEl=document.getElementById('tp'+i);
+    if(tpEl)tpEl.style.width=tp+'%';
+    const chip=document.getElementById('chip'+i);
+    if(chip){const s=chip.querySelector('span');if(s)s.textContent=td+'/'+tt;}
+  }
+}
+
+function sw(i){
+  document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('vis',j===i));
+  document.querySelectorAll('.tbtn').forEach((b,j)=>b.classList.toggle('active',j===i));
+}
+
+function togT(id){document.getElementById(id).classList.toggle('open');}
+
+function resetAll(){
+  if(!confirm('Reset all progress?'))return;
+  localStorage.removeItem(SK2);
+  document.querySelectorAll('.prow.done').forEach(r=>r.classList.remove('done'));
+  ['t0','t1','t2','t3','t4','t5','t6','t7','t8','t9','t10','t11','t12','t13','t14'].forEach(id=>updateTopic(id));
+  updateGlobal();
+}
+
+// Build count chips
+function buildChips(){
+  const names=['Arrays & Math','Strings','Sorting & Search','Trees & Graphs','DP & Opt','ML-Specific'];
+  const c=document.getElementById('gp-counts');
+  names.forEach((n,i)=>{
+    const rows=document.querySelectorAll('.prow[data-tab="'+i+'"]');
+    c.innerHTML+=`<div class="gp-chip" id="chip${i}">${n}: <span>0/${rows.length}</span></div>`;
+  });
+}
+
+function restore(){
+  const s=loadS();
+  document.querySelectorAll('.prow').forEach(row=>{
+    const card=row.closest('[id]');if(!card)return;
+    const k=getKey(row,card.id);
+    if(s[k])row.classList.add('done');
+  });
+  ['t0','t1','t2','t3','t4','t5','t6','t7','t8','t9','t10','t11','t12','t13','t14'].forEach(id=>updateTopic(id));
+  updateGlobal();
+}
+
+buildChips();restore();
+</script>
+</body>
+</html>
