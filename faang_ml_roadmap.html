@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAANG ML Roadmap 2027</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #18181f;
+    --border: #2a2a38;
+    --border2: #3a3a50;
+    --text: #e8e8f0;
+    --muted: #6b6b88;
+    --m1: #a78bfa;
+    --m1d: #1e1a2e;
+    --m2: #34d399;
+    --m2d: #0d2419;
+    --m3: #60a5fa;
+    --m3d: #0d1a2e;
+    --accent: #f472b6;
+    --done-bg: #0f1a0f;
+    --done-border: #1f3d1f;
+    --done-text: #4ade80;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    padding: 0;
+  }
+  header {
+    padding: 3rem 2rem 2rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(167,139,250,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  h1 span { color: var(--m1); }
+  .header-meta {
+    display: flex; align-items: center; gap: 20px;
+    margin-top: 16px; flex-wrap: wrap;
+  }
+  .meta-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border2);
+    color: var(--muted);
+  }
+  .progress-bar-wrap {
+    margin-top: 20px;
+    max-width: 500px;
+  }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 4px;
+    background: var(--surface2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--m1), var(--accent));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  main { padding: 2rem; max-width: 1100px; }
+
+  .month-block { margin-bottom: 3rem; }
+  .month-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 1.2rem;
+  }
+  .month-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .m1-label { background: var(--m1d); color: var(--m1); border: 1px solid rgba(167,139,250,0.2); }
+  .m2-label { background: var(--m2d); color: var(--m2); border: 1px solid rgba(52,211,153,0.2); }
+  .m3-label { background: var(--m3d); color: var(--m3); border: 1px solid rgba(96,165,250,0.2); }
+  .month-title { font-size: 16px; font-weight: 600; }
+  .month-line { flex: 1; height: 1px; background: var(--border); }
+
+  .weeks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  .week-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .week-card:hover { border-color: var(--border2); }
+
+  .week-head {
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 10px;
+    user-select: none;
+  }
+  .week-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 3px;
+  }
+  .week-title { font-size: 14px; font-weight: 600; }
+  .week-toggle {
+    font-size: 10px;
+    color: var(--muted);
+    padding: 3px 7px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: 0.2s;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .week-head:hover .week-toggle { border-color: var(--border2); color: var(--text); }
+  .week-body { padding: 14px 16px; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+    margin-top: 14px;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  .topic-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid transparent;
+    transition: 0.15s;
+    cursor: pointer;
+  }
+  .topic-row:hover { border-bottom-color: var(--border); }
+
+  .topic-cb {
+    width: 16px; height: 16px;
+    border: 1.5px solid var(--border2);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.15s;
+    cursor: pointer;
+  }
+  .topic-row.checked .topic-cb {
+    background: #166534;
+    border-color: #16a34a;
+  }
+  .topic-row.checked .topic-cb::after {
+    content: '✓';
+    font-size: 10px;
+    color: #4ade80;
+    line-height: 1;
+  }
+  .topic-text {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+    transition: 0.15s;
+  }
+  .topic-row.checked .topic-text {
+    color: var(--muted);
+    text-decoration: line-through;
+    text-decoration-color: #4ade8066;
+  }
+
+  .project-box {
+    margin-top: 14px;
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    border-left: 2px solid var(--m1);
+    position: relative;
+  }
+  .m2-accent { border-left-color: var(--m2); }
+  .m3-accent { border-left-color: var(--m3); }
+
+  .project-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--m1);
+    margin-bottom: 5px;
+  }
+  .m2-accent .project-tag { color: var(--m2); }
+  .m3-accent .project-tag { color: var(--m3); }
+
+  .project-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .project-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .week-progress {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 16px 0;
+  }
+  .wp-bar { flex: 1; height: 2px; background: var(--surface2); border-radius: 1px; overflow: hidden; }
+  .wp-fill { height: 100%; border-radius: 1px; width: 0%; transition: width 0.3s ease; }
+  .m1-fill { background: var(--m1); }
+  .m2-fill { background: var(--m2); }
+  .m3-fill { background: var(--m3); }
+  .wp-count { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); white-space: nowrap; }
+
+  .collapsed .week-body { display: none; }
+  .collapsed .week-toggle::after { content: ' ▼'; }
+  .week-toggle::after { content: ' ▲'; }
+
+  .reset-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 6px 14px;
+    border: 1px solid var(--border2);
+    border-radius: 5px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: 0.2s;
+    margin-top: 16px;
+  }
+  .reset-btn:hover { border-color: #ef4444; color: #ef4444; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">// FAANG ML HIRING ROADMAP · 2027 · INDIA EDITION</div>
+  <h1>3-Month Grind to<br><span>FAANG ML/AI</span></h1>
+  <div class="header-meta">
+    <span class="meta-pill">12 weeks</span>
+    <span class="meta-pill">12 projects</span>
+    <span class="meta-pill">ML System Design + Backend</span>
+    <span class="meta-pill">Fresher track</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-label">
+      <span>Overall progress</span>
+      <span id="global-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="global-bar"></div></div>
+  </div>
+  <button class="reset-btn" onclick="resetAll()">Reset all progress</button>
+</header>
+
+<main>
+
+<!-- MONTH 1 -->
+<div class="month-block">
+  <div class="month-header">
+    <span class="month-label m1-label">MONTH 01</span>
+    <span class="month-title">ML Foundations + System Design Basics</span>
+    <span class="month-line"></span>
+  </div>
+  <div class="weeks-grid">
+
+    <!-- W1 -->
+    <div class="week-card" id="wk1">
+      <div class="week-progress"><div class="wp-bar"><div class="wp-fill m1-fill" id="bar-wk1"></div></div><span class="wp-count" id="cnt-wk1">0/5</span></div>
+      <div class="week-head" onclick="toggleCard('wk1')">
+        <div><div class="week-num">WEEK 01</div><div class="week-title">ML Core + Python Internals</div></div>
+        <span class="week-toggle"></span>
+      </div>
+      <div class="week-body">
+        <div class="section-label">TOPICS</div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Linear &amp; Logistic Regression from scratch — understand the math, implement with NumPy</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Overfitting, bias-variance tradeoff, L1/L2 regularization</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Python memory model, GIL, multiprocessing vs threading vs asyncio</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">NumPy vectorization, broadcasting rules, memory layout (C vs F order)</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Time &amp; space complexity for common ML algorithms (training + inference)</span></div>
+        <div class="project-box">
+          <div class="project-tag">WEEK 01 PROJECT</div>
+          <div class="project-name">Loan Default Predictor (from scratch)</div>
+          <div class="project-desc">Build logistic regression using NumPy only. Add L2 regularization, mini-batch gradient descent, sklearn-compatible API (.fit / .predict). Benchmark vs sklearn. Deploy as a FastAPI endpoint. <strong style="color:#e8e8f0">Stack: Python, NumPy, FastAPI, Docker</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- W2 -->
+    <div class="week-card" id="wk2">
+      <div class="week-progress"><div class="wp-bar"><div class="wp-fill m1-fill" id="bar-wk2"></div></div><span class="wp-count" id="cnt-wk2">0/5</span></div>
+      <div class="week-head" onclick="toggleCard('wk2')">
+        <div><div class="week-num">WEEK 02</div><div class="week-title">Deep Learning + Scalable Training</div></div>
+        <span class="week-toggle"></span>
+      </div>
+      <div class="week-body">
+        <div class="section-label">TOPICS</div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Backprop math end-to-end — vanishing/exploding gradients, gradient clipping</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Adam, AdaGrad, RMSProp — when to use which, learning rate schedules (cosine, warmup)</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Mixed precision training (FP16/BF16), gradient checkpointing, memory trade-offs</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Data parallelism with PyTorch DDP — how gradients are all-reduced across GPUs</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">BatchNorm vs LayerNorm vs GroupNorm — why LN dominates transformers</span></div>
+        <div class="project-box">
+          <div class="project-tag">WEEK 02 PROJECT</div>
+          <div class="project-name">Custom AutoGrad Engine (micrograd++)</div>
+          <div class="project-desc">Extend Karpathy's micrograd with Adam optimizer, broadcast ops, and CNN layers. Train on MNIST. Profile with PyTorch Profiler and document throughput gains from vectorization. <strong style="color:#e8e8f0">Stack: Python, PyTorch, TensorBoard</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- W3 -->
+    <div class="week-card" id="wk3">
+      <div class="week-progress"><div class="wp-bar"><div class="wp-fill m1-fill" id="bar-wk3"></div></div><span class="wp-count" id="cnt-wk3">0/5</span></div>
+      <div class="week-head" onclick="toggleCard('wk3')">
+        <div><div class="week-num">WEEK 03</div><div class="week-title">Databases + Feature Stores</div></div>
+        <span class="week-toggle"></span>
+      </div>
+      <div class="week-body">
+        <div class="section-label">TOPICS</div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">B-tree vs LSM-tree indexes — EXPLAIN ANALYZE in PostgreSQL, query planner</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">CAP theorem, eventual consistency, DynamoDB partitioning &amp; hot partitions</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Feature stores: offline (Parquet/Hive) vs online (Redis) layers, Feast/Tecton concepts</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Redis data structures for ML: sorted sets for rankings, hashes for feature vectors</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Point-in-time correctness — avoiding training-serving skew in feature joins</span></div>
+        <div class="project-box">
+          <div class="project-tag">WEEK 03 PROJECT</div>
+          <div class="project-name">Mini Feature Store</div>
+          <div class="project-desc">Build a feature store with offline Parquet layer (S3) and online Redis layer. Implement point-in-time joins, TTL eviction, feature versioning, and a Python SDK with .get_features() / .materialize(). <strong style="color:#e8e8f0">Stack: Python, Redis, Parquet, FastAPI, S3/MinIO</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- W4 -->
+    <div class="week-card" id="wk4">
+      <div class="week-progress"><div class="wp-bar"><div class="wp-fill m1-fill" id="bar-wk4"></div></div><span class="wp-count" id="cnt-wk4">0/5</span></div>
+      <div class="week-head" onclick="toggleCard('wk4')">
+        <div><div class="week-num">WEEK 04</div><div class="week-title">System Design Basics for ML</div></div>
+        <span class="week-toggle"></span>
+      </div>
+      <div class="week-body">
+        <div class="section-label">TOPICS</div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">HLD vs LLD framing — how to structure a FAANG ML system design answer in 45 min</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Stateless inference servers, horizontal scaling, load balancing (L4 vs L7)</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Caching hierarchy: CDN → app cache → DB cache — cache invalidation strategies</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">REST vs gRPC for ML serving — protobuf, bidirectional streaming, latency trade-offs</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Back-of-envelope math: QPS, memory, storage, bandwidth for ML systems</span></div>
+        <div class="project-box">
+          <div class="project-tag">WEEK 04 PROJECT</div>
+          <div class="project-name">Real-time Recommendation API</div>
+          <div class="project-desc">Collaborative filtering service with ALS model, Redis caching layer, gRPC + REST interfaces, rate limiting with token bucket, and Locust load test showing 1000 QPS capability. Write a 1-page system design doc. <strong style="color:#e8e8f0">Stack: Python, gRPC, Redis, Locust, Docker Compose</strong></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MONTH 2 -->
+<div class="month-block">
+  <div class="month-header">
+    <span class="month-label m2-label">MONTH 02</span>
+    <span class="month-title">ML System Design — Production Grade</span>
+    <span class="month-line"></span>
+  </div>
+  <div class="weeks-grid">
+
+    <!-- W5 -->
+    <div class="week-card" id="wk5">
+      <div class="week-progress"><div class="wp-bar"><div class="wp-fill m2-fill" id="bar-wk5"></div></div><span class="wp-count" id="cnt-wk5">0/5</span></div>
+      <div class="week-head" onclick="toggleCard('wk5')">
+        <div><div class="week-num">WEEK 05</div><div class="week-title">ML Pipelines + Orchestration</div></div>
+        <span class="week-toggle"></span>
+      </div>
+      <div class="week-body">
+        <div class="section-label">TOPICS</div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Airflow DAG design: XComs, sensors, operators, SLAs, backfills</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">MLflow: experiment tracking, model registry, artifact storage, model stages</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">DVC for data versioning — remote storage (S3), pipeline stages, data lineage</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Kubeflow pipelines: containerized steps, hyperparameter tuning with Katib</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Idempotent pipelines — retry semantics, exactly-once vs at-least-once processing</span></div>
+        <div class="project-box m2-accent">
+          <div class="project-tag">WEEK 05 PROJECT</div>
+          <div class="project-name">Automated Retraining Pipeline</div>
+          <div class="project-desc">Airflow DAG: ingest new data from S3 → retrain XGBoost churn model → log to MLflow → run validation (PSI, AUC gate) → auto-promote to production if metrics improve by &gt;1%. Trigger on schedule or data drift. <strong style="color:#e8e8f0">Stack: Airflow, MLflow, XGBoost, DVC, Docker</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- W6 -->
+    <div class="week-card" id="wk6">
+      <div class="week-progress"><div class="wp-bar"><div class="wp-fill m2-fill" id="bar-wk6"></div></div><span class="wp-count" id="cnt-wk6">0/5</span></div>
+      <div class="week-head" onclick="toggleCard('wk6')">
+        <div><div class="week-num">WEEK 06</div><div class="week-title">Model Serving + Inference Optimization</div></div>
+        <span class="week-toggle"></span>
+      </div>
+      <div class="week-body">
+        <div class="section-label">TOPICS</div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">ONNX export pipeline — operator support, custom ops, runtime providers (CUDA, TensorRT)</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">INT8/FP16 quantization — post-training quantization vs quantization-aware training</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Dynamic batching, request queuing, max-batch-delay, timeout handling</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Triton Inference Server architecture — model repository, concurrency, backend types</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Latency SLAs: p50/p95/p99 — why p99 matters, tail latency causes and mitigations</span></div>
+        <div class="project-box m2-accent">
+          <div class="project-tag">WEEK 06 PROJECT</div>
+          <div class="project-name">High-Throughput Sentiment Inference Server</div>
+          <div class="project-desc">Export DistilBERT → ONNX → INT8 quantization → serve on Triton with dynamic batching. Build a benchmark harness showing 10x throughput improvement and p99 latency under 50ms vs naive PyTorch. <strong style="color:#e8e8f0">Stack: PyTorch, ONNX Runtime, Triton, Python</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- W7 -->
+    <div class="week-card" id="wk7">
+      <div class="week-progress"><div class="wp-bar"><div class="wp-fill m2-fill" id="bar-wk7"></div></div><span class="wp-count" id="cnt-wk7">0/5</span></div>
+      <div class="week-head" onclick="toggleCard('wk7')">
+        <div><div class="week-num">WEEK 07</div><div class="week-title">Streaming + Real-time ML</div></div>
+        <span class="week-toggle"></span>
+      </div>
+      <div class="week-body">
+        <div class="section-label">TOPICS</div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Kafka: partitions, consumer groups, offsets, at-least-once vs exactly-once delivery</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Flink: windowing (tumbling, sliding, session), stateful operators, watermarks for late events</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Lambda vs Kappa architecture — trade-offs for ML feature computation</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Online learning: River library, concept drift detection (ADWIN, KSWIN)</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Exactly-once semantics for features — transactional producers, idempotent consumers</span></div>
+        <div class="project-box m2-accent">
+          <div class="project-tag">WEEK 07 PROJECT</div>
+          <div class="project-name">Real-time Fraud Detection System</div>
+          <div class="project-desc">Kafka → Flink pipeline that computes velocity features (txns/min per card) in real time, feeds a pre-trained Random Forest, publishes fraud scores back to Kafka. Alert latency under 50ms. Simulate 10k txns/sec. <strong style="color:#e8e8f0">Stack: Kafka, PyFlink, Redis, Python</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- W8 -->
+    <div class="week-card" id="wk8">
+      <div class="week-progress"><div class="wp-bar"><div class="wp-fill m2-fill" id="bar-wk8"></div></div><span class="wp-count" id="cnt-wk8">0/5</span></div>
+      <div class="week-head" onclick="toggleCard('wk8')">
+        <div><div class="week-num">WEEK 08</div><div class="week-title">ML Monitoring + Data Quality</div></div>
+        <span class="week-toggle"></span>
+      </div>
+      <div class="week-body">
+        <div class="section-label">TOPICS</div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Data drift vs concept drift — PSI, KS test, KL divergence for drift detection</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Model performance monitoring — prediction distribution shifts, shadow mode evaluation</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Evidently AI, Prometheus + Grafana for ML metrics dashboards</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Data quality checks: Great Expectations — schema, null rate, range, distribution</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Alerting strategies — alert fatigue, SLOs vs SLAs for ML systems</span></div>
+        <div class="project-box m2-accent">
+          <div class="project-tag">WEEK 08 PROJECT</div>
+          <div class="project-name">ML Observability Platform</div>
+          <div class="project-desc">Deploy a churn model, inject gradual data drift into a synthetic stream, automatically detect it using PSI, trigger Slack alert + retraining Airflow DAG. Grafana dashboard with prediction drift, latency, and throughput. <strong style="color:#e8e8f0">Stack: Evidently, Prometheus, Grafana, Airflow, Slack API</strong></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MONTH 3 -->
+<div class="month-block">
+  <div class="month-header">
+    <span class="month-label m3-label">MONTH 03</span>
+    <span class="month-title">LLMs, Infra at Scale + Interview Prep</span>
+    <span class="month-line"></span>
+  </div>
+  <div class="weeks-grid">
+
+    <!-- W9 -->
+    <div class="week-card" id="wk9">
+      <div class="week-progress"><div class="wp-bar"><div class="wp-fill m3-fill" id="bar-wk9"></div></div><span class="wp-count" id="cnt-wk9">0/5</span></div>
+      <div class="week-head" onclick="toggleCard('wk9')">
+        <div><div class="week-num">WEEK 09</div><div class="week-title">Transformers + LLM System Design</div></div>
+        <span class="week-toggle"></span>
+      </div>
+      <div class="week-body">
+        <div class="section-label">TOPICS</div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Transformer architecture deep-dive — attention heads, KV cache, positional encodings (RoPE)</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">LLM serving: vLLM, PagedAttention, continuous batching, speculative decoding</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">RAG pipelines — chunking, vector DBs (Pinecone, Weaviate), hybrid search, re-ranking</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Fine-tuning strategies: LoRA, QLoRA, full fine-tune — when to use each</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">LLM system design: design a ChatGPT-like system — streaming, context window mgmt</span></div>
+        <div class="project-box m3-accent">
+          <div class="project-tag">WEEK 09 PROJECT</div>
+          <div class="project-name">Production RAG System with Evaluation</div>
+          <div class="project-desc">Build an end-to-end RAG pipeline over a 10k-document corpus (e.g., arXiv papers). Implement chunking, embedding, vector DB, re-ranking, and streaming output via FastAPI. Evaluate with RAGAS (faithfulness, relevance). <strong style="color:#e8e8f0">Stack: LangChain, Weaviate, vLLM, FastAPI, RAGAS</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- W10 -->
+    <div class="week-card" id="wk10">
+      <div class="week-progress"><div class="wp-bar"><div class="wp-fill m3-fill" id="bar-wk10"></div></div><span class="wp-count" id="cnt-wk10">0/5</span></div>
+      <div class="week-head" onclick="toggleCard('wk10')">
+        <div><div class="week-num">WEEK 10</div><div class="week-title">Distributed Systems + MLOps at Scale</div></div>
+        <span class="week-toggle"></span>
+      </div>
+      <div class="week-body">
+        <div class="section-label">TOPICS</div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Consistent hashing — virtual nodes, hotspot avoidance, use in ML feature serving</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Distributed training: pipeline parallelism, tensor parallelism, ZeRO stages (DeepSpeed)</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Kubernetes for ML: resource quotas, GPU scheduling, node affinity, HPA for inference</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">A/B testing and canary deployments for ML models — traffic splitting, holdout analysis</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Circuit breakers, bulkhead pattern, graceful degradation for ML APIs</span></div>
+        <div class="project-box m3-accent">
+          <div class="project-tag">WEEK 10 PROJECT</div>
+          <div class="project-name">ML Platform on Kubernetes</div>
+          <div class="project-desc">Deploy model serving + Airflow + MLflow on a local k3s/minikube cluster. Implement canary rollout (10% → 50% → 100%) with automatic rollback on metric regression. GPU resource quota enforcement. <strong style="color:#e8e8f0">Stack: Kubernetes, Helm, Airflow, MLflow, Prometheus</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- W11 -->
+    <div class="week-card" id="wk11">
+      <div class="week-progress"><div class="wp-bar"><div class="wp-fill m3-fill" id="bar-wk11"></div></div><span class="wp-count" id="cnt-wk11">0/5</span></div>
+      <div class="week-head" onclick="toggleCard('wk11')">
+        <div><div class="week-num">WEEK 11</div><div class="week-title">Coding + ML Design Interview Prep</div></div>
+        <span class="week-toggle"></span>
+      </div>
+      <div class="week-body">
+        <div class="section-label">TOPICS</div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">ML coding: implement k-means, PCA, decision tree from scratch in interview conditions</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">DSA for ML interviews: graphs (BFS/DFS), heaps, sliding window, two pointers</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">ML system design: practice "Design YouTube recommendations" / "Design ad click prediction"</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Probability + stats: Bayesian updating, MLE, hypothesis testing (for ML interview rounds)</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Behavioural (STAR): leadership, failure, data-driven decisions — craft 5 strong stories</span></div>
+        <div class="project-box m3-accent">
+          <div class="project-tag">WEEK 11 PROJECT</div>
+          <div class="project-name">ML Interview Simulation (Mock Set)</div>
+          <div class="project-desc">Record 3 mock sessions: (1) implement gradient boosting from scratch, (2) system design for a search ranking system, (3) ML metrics deep-dive. Get feedback from a senior engineer or use a platform like Pramp/interviewing.io.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- W12 -->
+    <div class="week-card" id="wk12">
+      <div class="week-progress"><div class="wp-bar"><div class="wp-fill m3-fill" id="bar-wk12"></div></div><span class="wp-count" id="cnt-wk12">0/5</span></div>
+      <div class="week-head" onclick="toggleCard('wk12')">
+        <div><div class="week-num">WEEK 12</div><div class="week-title">Capstone + Portfolio Polish</div></div>
+        <span class="week-toggle"></span>
+      </div>
+      <div class="week-body">
+        <div class="section-label">TOPICS</div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Writing engineering blog posts about your projects — structure, depth, authenticity</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">GitHub portfolio: READMEs with architecture diagrams, benchmark results, demo GIFs</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Resume keywords for FAANG ML roles in 2027 — ATS optimization, project phrasing</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">LinkedIn + cold outreach to Indian engineers at FAANG via specific project-based hooks</span></div>
+        <div class="topic-row" onclick="tick(this)"><div class="topic-cb"></div><span class="topic-text">Referral strategy — how to get internal referrals from IIT/IIM alumni networks</span></div>
+        <div class="project-box m3-accent">
+          <div class="project-tag">WEEK 12 CAPSTONE PROJECT</div>
+          <div class="project-name">End-to-End ML Platform (Hire-Ready Portfolio)</div>
+          <div class="project-desc">Combine Month 2–3 work into one cohesive repo: feature store → training pipeline → model registry → Triton serving → drift monitoring → RAG chatbot UI. Write a detailed design doc + 2000-word blog post. This becomes your primary FAANG talking piece. <strong style="color:#e8e8f0">Full stack: everything you built</strong></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+  const WEEKS = ['wk1','wk2','wk3','wk4','wk5','wk6','wk7','wk8','wk9','wk10','wk11','wk12'];
+
+  function getKey(weekId, idx) { return weekId + '_' + idx; }
+
+  function saveState(weekId, idx, checked) {
+    localStorage.setItem(getKey(weekId, idx), checked ? '1' : '0');
+  }
+
+  function loadState() {
+    WEEKS.forEach(wid => {
+      const card = document.getElementById(wid);
+      const rows = card.querySelectorAll('.topic-row');
+      rows.forEach((row, i) => {
+        const val = localStorage.getItem(getKey(wid, i));
+        if (val === '1') row.classList.add('checked');
+      });
+      updateWeekBar(wid);
+    });
+    updateGlobal();
+  }
+
+  function tick(row) {
+    const card = row.closest('.week-card');
+    const wid = card.id;
+    const rows = Array.from(card.querySelectorAll('.topic-row'));
+    const idx = rows.indexOf(row);
+    row.classList.toggle('checked');
+    saveState(wid, idx, row.classList.contains('checked'));
+    updateWeekBar(wid);
+    updateGlobal();
+  }
+
+  function updateWeekBar(wid) {
+    const card = document.getElementById(wid);
+    const rows = card.querySelectorAll('.topic-row');
+    const done = card.querySelectorAll('.topic-row.checked').length;
+    const total = rows.length;
+    const pct = total ? Math.round(done / total * 100) : 0;
+    document.getElementById('bar-' + wid).style.width = pct + '%';
+    document.getElementById('cnt-' + wid).textContent = done + '/' + total;
+  }
+
+  function updateGlobal() {
+    let totalDone = 0, totalAll = 0;
+    WEEKS.forEach(wid => {
+      const card = document.getElementById(wid);
+      totalDone += card.querySelectorAll('.topic-row.checked').length;
+      totalAll += card.querySelectorAll('.topic-row').length;
+    });
+    const pct = totalAll ? Math.round(totalDone / totalAll * 100) : 0;
+    document.getElementById('global-bar').style.width = pct + '%';
+    document.getElementById('global-pct').textContent = pct + '%';
+  }
+
+  function toggleCard(id) {
+    document.getElementById(id).classList.toggle('collapsed');
+  }
+
+  function resetAll() {
+    if (!confirm('Reset all progress?')) return;
+    localStorage.clear();
+    document.querySelectorAll('.topic-row.checked').forEach(r => r.classList.remove('checked'));
+    WEEKS.forEach(wid => updateWeekBar(wid));
+    updateGlobal();
+  }
+
+  loadState();
+</script>
+</body>
+</html>
